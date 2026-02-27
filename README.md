@@ -2,6 +2,33 @@
 
 The journay into learning Spring Boot and RESTful API's
 
+Learnings
+  JPA (Kakarta Persistence API)
+    -Defines what each annotation means (@entity, @Id...)
+    -Defines what EntityManager is
+    -Defines how persistence should work
+  Hibernate
+    -Is the implementation of JPA (the engine doing the work)
+    -Converts Java Objects -> SQL
+    -Executes SQL queries
+    -Converts SQL results -> Java Objects
+    -Manages entity lifecycle
+    -Handles caching, dirty checking, transactions
+  H2
+    - Lightweight in memory database
+  Spring Data JPA
+    -Abstraction layer the dev interacts with directly
+    -Builds on top of JPA
+    -Generates repository implementations
+    -Provides JpaRepository
+  Spring Boot
+    -Auto configures everything
+    -Wires dependencies together
+    -Starts embeded Tomcat
+    -Configures Hibernate
+    -Configures DataSource
+    -Scans packages
+
 Step1: Project setup
   Create new Spring Boot project @ https://start.spring.io
     Properties:
