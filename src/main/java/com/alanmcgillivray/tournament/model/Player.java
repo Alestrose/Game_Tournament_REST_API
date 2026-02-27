@@ -1,4 +1,4 @@
-package com.alanmcgillivray.model;
+package com.alanmcgillivray.tournament.model;
 
 
 import jakarta.persistence.*;
@@ -20,6 +20,6 @@ public class Player {
     private Long id;
     private String name;
     private int level, health, strength, defense, speed;
-    
+
 
 }
