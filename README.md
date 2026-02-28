@@ -109,6 +109,7 @@ Step 6: Error Handling
   Create ResourceNotFoundException.java
   Create GlobalExceptionHandler.java (@RestControllerAdvice applies this to all controllers)
   Update the thrown exception for getPlayerById in PlayerServiceImpl.java with new ResourceNotFoundException
+    Replaced generic RuntimeException with custom ResourceNotFoundException and mapped it globally to return HTTP 404.
   
 Step 7: Validation Layering
   Import to Player.java: jakarta.validation.constraints.Min; & jakarta.validation.constraints.NotBlank;
@@ -118,4 +119,13 @@ Step 7: Validation Layering
       public Player createPlayer(@Valid @RequestBody Player player){
         return playerService.createPlayer(player);
       }
-  
+
+
+
+Reflection
+  -Learned how Spring Boot auto-configuration works.
+  -Understood the difference between JPA specification and Hibernate implementation.
+  -Implemented layered architecture with separation of concerns.
+  -Implemented custom exception handling and structured validation responses.
+  -Gained hands-on experience building and testing REST endpoints using HTTP tools.
+    
