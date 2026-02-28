@@ -1,0 +1,23 @@
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### Spring Boot ###
+application.properties
+application.yml
+
+### IDE ###
+.idea/
+*.iml
+*.ipr
+*.iws
+
+### VS Code ###
+.vscode/
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+*.log
