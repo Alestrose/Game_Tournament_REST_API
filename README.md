@@ -97,3 +97,14 @@ Step 4: The Service Layer (business logic)
   Create PlayerServiceImpl, extends PlayerService
     -Implement methods
 
+Step 5: The Controller Layer
+  Created PlayerController.java (RestController)
+    -Maps Get, Post and Delete to Player methods
+
+Step 6: Error Handling
+  (Incorrect GET requests return 500 status code which indicates something is broken, instead of 404 status code which indicates something is not found)
+  Create ResourceNotFoundException.java
+  Create GlobalExceptionHandler.java (@RestControllerAdvice applies this to all controllers)
+  Update the thrown exception for getPlayerById in PlayerServiceImpl.java with new ResourceNotFoundException
+  
+  
