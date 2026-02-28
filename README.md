@@ -29,6 +29,23 @@ Learnings
     -Configures DataSource
     -Scans packages
 
+
+Architecture  Controller → Service → Repository → Database
+REST architecture differes from web application MVC. Consider it "Layered Architecture with MVC principles"
+  Controller
+    -HTTP requests
+    -Request validation (basic)
+    -Response formatting
+    -Status codes
+  Service
+    -Business rules
+    -Domain validation
+    -Orchestration
+    -Transaction boundaries
+  Repository
+    -Database interaction
+    -Persists data
+
 Step1: Project setup
   Create new Spring Boot project @ https://start.spring.io
     Properties:
@@ -64,3 +81,19 @@ Step1: Project setup
 Step 2: The Model Layer
   Create Player entity class with lombox and jakarta annotations
   test db table "players" is operational via web h2 console @ http://localhost:8080/h2-console
+
+Step 3: The Repository Layer
+  Create "PlayerRepository.java" interface
+  extends JpaRepository<Player, Long>
+    provides crud methods to database
+    manages object persistence in database
+
+Step 4: The Service Layer (business logic)
+  Create PlayerService.java interface
+    -Player createPlayer(Player player);
+    -Player getPlayerById(Long id);
+    -List<Player> getAllPlayers();
+    -void deletePlayer(Long id);
+  Create PlayerServiceImpl, extends PlayerService
+    -Implement methods
+
