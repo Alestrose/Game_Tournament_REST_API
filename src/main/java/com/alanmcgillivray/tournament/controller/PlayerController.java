@@ -2,12 +2,14 @@ package com.alanmcgillivray.tournament.controller;
 
 import com.alanmcgillivray.tournament.model.Player;
 import com.alanmcgillivray.tournament.service.PlayerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/players")
+@ResponseStatus(HttpStatus.CREATED)
 public class PlayerController {
 
     private final PlayerService playerService;

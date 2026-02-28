@@ -1,0 +1,13 @@
+### Create Player
+POST http://localhost:8080/players
+Content-Type: application/json
+
+{
+  "name": "Archer",
+  "level": 1,
+  "health": 75,
+  "strength": 15,
+  "defense": 8,
+  "speed": 20
+}
+

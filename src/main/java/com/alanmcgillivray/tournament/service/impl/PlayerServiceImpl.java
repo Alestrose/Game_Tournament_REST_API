@@ -1,5 +1,6 @@
 package com.alanmcgillivray.tournament.service.impl;
 
+import com.alanmcgillivray.tournament.exception.ResourceNotFoundException;
 import com.alanmcgillivray.tournament.model.Player;
 import com.alanmcgillivray.tournament.repository.PlayerRepository;
 import com.alanmcgillivray.tournament.service.PlayerService;
@@ -28,7 +29,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getPlayerById(Long id) {
-        return playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Player not found with id: " + id));
+        return playerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Player not found with id: " + id));
     }
 
     @Override
