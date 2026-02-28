@@ -1,9 +1,12 @@
 
 
-The journay into learning Spring Boot and RESTful API's
+The journey into learning Spring Boot and RESTful API's
+
+This project documents my structured journey into learning Spring Boot and building RESTful APIs using layered architecture principles.
+Rather than following a tutorial blindly, I focused on understanding how each component (JPA, Hibernate, Spring Data, etc.) fits into the overall system design.
 
 Learnings
-  JPA (Kakarta Persistence API)
+  JPA (Jakarta Persistence API)
     -Defines what each annotation means (@entity, @Id...)
     -Defines what EntityManager is
     -Defines how persistence should work
@@ -24,14 +27,14 @@ Learnings
   Spring Boot
     -Auto configures everything
     -Wires dependencies together
-    -Starts embeded Tomcat
+    -Starts embedded Tomcat
     -Configures Hibernate
     -Configures DataSource
     -Scans packages
 
 
 Architecture  Controller → Service → Repository → Database
-REST architecture differes from web application MVC. Consider it "Layered Architecture with MVC principles"
+REST architecture differs from web application MVC. Consider it "Layered Architecture with MVC principles"
   Controller
     -HTTP requests
     -Request validation (basic)
@@ -79,7 +82,7 @@ Step1: Project setup
     spring.jpa.show-sql=true
 
 Step 2: The Model Layer
-  Create Player entity class with lombox and jakarta annotations
+  Create Player entity class with lombok and jakarta annotations
   test db table "players" is operational via web h2 console @ http://localhost:8080/h2-console
 
 Step 3: The Repository Layer
@@ -107,4 +110,12 @@ Step 6: Error Handling
   Create GlobalExceptionHandler.java (@RestControllerAdvice applies this to all controllers)
   Update the thrown exception for getPlayerById in PlayerServiceImpl.java with new ResourceNotFoundException
   
+Step 7: Validation Layering
+  Import to Player.java: jakarta.validation.constraints.Min; & jakarta.validation.constraints.NotBlank;
+  Annotate variables in Player with @NotBlank or @Min where required
+  Enable validation in controller
+    -add @Valid annotation to createPlayer Method in PlayerController.java
+      public Player createPlayer(@Valid @RequestBody Player player){
+        return playerService.createPlayer(player);
+      }
   
