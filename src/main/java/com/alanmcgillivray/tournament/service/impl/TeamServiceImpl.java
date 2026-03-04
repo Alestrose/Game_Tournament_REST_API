@@ -4,7 +4,9 @@ import com.alanmcgillivray.tournament.dto.TeamRequest;
 import com.alanmcgillivray.tournament.dto.TeamResponse;
 import com.alanmcgillivray.tournament.exception.ResourceNotFoundException;
 import com.alanmcgillivray.tournament.mapper.TeamMapper;
+import com.alanmcgillivray.tournament.model.Player;
 import com.alanmcgillivray.tournament.model.Team;
+import com.alanmcgillivray.tournament.repository.PlayerRepository;
 import com.alanmcgillivray.tournament.repository.TeamRepository;
 import com.alanmcgillivray.tournament.service.TeamService;
 import org.springframework.stereotype.Service;
@@ -16,17 +18,22 @@ public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
     private final TeamMapper teamMapper;
+    private final PlayerRepository playerRepository;
 
-    public TeamServiceImpl(TeamRepository teamRepository, TeamMapper teamMapper) {
+    public TeamServiceImpl(
+            TeamRepository teamRepository,
+            TeamMapper teamMapper,
+            PlayerRepository playerRepository) {
+
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
+        this.playerRepository = playerRepository;
     }
 
     @Override
     public TeamResponse createTeam(TeamRequest request) {
 
         Team team = teamMapper.toEntity(request);
-
         Team savedTeam = teamRepository.save(team);
 
         return teamMapper.toResponse(savedTeam);
@@ -59,5 +66,21 @@ public class TeamServiceImpl implements TeamService {
         }
 
         teamRepository.deleteById(id);
+    }
+
+    @Override
+    public void addPlayerToTeam(Long teamId, Long playerId) {
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Team not found with id: " + teamId));
+
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Player not found with id: " + playerId));
+
+        player.setTeam(team);
+
+        playerRepository.save(player);
     }
 }

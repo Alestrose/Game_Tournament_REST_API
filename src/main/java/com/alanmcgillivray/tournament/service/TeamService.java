@@ -14,4 +14,6 @@ public interface TeamService {
     TeamResponse getTeamById(Long id);
 
     void deleteTeam(Long id);
+
+    void addPlayerToTeam(Long teamId, Long playerId);
 }

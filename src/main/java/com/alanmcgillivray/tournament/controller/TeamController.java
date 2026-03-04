@@ -39,4 +39,13 @@ public class TeamController {
     public void deleteTeam(@PathVariable Long id) {
         teamService.deleteTeam(id);
     }
+
+    @PostMapping("/{teamId}/players/{playerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPlayerToTeam(
+            @PathVariable Long teamId,
+            @PathVariable Long playerId) {
+
+        teamService.addPlayerToTeam(teamId, playerId);
+    }
 }

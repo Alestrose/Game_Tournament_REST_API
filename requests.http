@@ -31,3 +31,6 @@ Content-Type: application/json
 {
   "name": "Red Dragons"
 }
+
+### Assign Player To Team
+POST http://localhost:8080/teams/1/players/2
