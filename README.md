@@ -170,6 +170,10 @@ Step 10: Put, updating existing players
     -add a PUT http://localhost:8080/players/1 operation to requests.http file to replace any character with id 1
     Run both methods in http://localhost:8080/players to confirm correct operations and validations
 
+*Important Note*
+At this point the API is fully RESTful complient and all CRUD operations safley with validations using Spring Boot.
+We will continue and add a team table to the database to continue to learn and display relationships/
+
 Reflection
   -Learned how Spring Boot auto-configuration works.
   -Understood the difference between JPA specification and Hibernate implementation.
