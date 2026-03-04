@@ -1,8 +1,10 @@
 package com.alanmcgillivray.tournament.service.impl;
 
+import com.alanmcgillivray.tournament.dto.PlayerResponse;
 import com.alanmcgillivray.tournament.dto.TeamRequest;
 import com.alanmcgillivray.tournament.dto.TeamResponse;
 import com.alanmcgillivray.tournament.exception.ResourceNotFoundException;
+import com.alanmcgillivray.tournament.mapper.PlayerMapper;
 import com.alanmcgillivray.tournament.mapper.TeamMapper;
 import com.alanmcgillivray.tournament.model.Player;
 import com.alanmcgillivray.tournament.model.Team;
@@ -19,15 +21,18 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
     private final TeamMapper teamMapper;
     private final PlayerRepository playerRepository;
+    private final PlayerMapper playerMapper;
 
     public TeamServiceImpl(
             TeamRepository teamRepository,
             TeamMapper teamMapper,
-            PlayerRepository playerRepository) {
+            PlayerRepository playerRepository,
+            PlayerMapper playerMapper) {
 
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
         this.playerRepository = playerRepository;
+        this.playerMapper = playerMapper;
     }
 
     @Override
@@ -82,5 +87,18 @@ public class TeamServiceImpl implements TeamService {
         player.setTeam(team);
 
         playerRepository.save(player);
+    }
+
+    @Override
+    public List<PlayerResponse> getPlayersForTeam(Long teamId) {
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Team not found with id: " + teamId));
+
+        return team.getPlayers()
+                .stream()
+                .map(playerMapper::toResponse)
+                .toList();
     }
 }

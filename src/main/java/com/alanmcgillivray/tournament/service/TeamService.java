@@ -1,5 +1,6 @@
 package com.alanmcgillivray.tournament.service;
 
+import com.alanmcgillivray.tournament.dto.PlayerResponse;
 import com.alanmcgillivray.tournament.dto.TeamRequest;
 import com.alanmcgillivray.tournament.dto.TeamResponse;
 
@@ -16,4 +17,6 @@ public interface TeamService {
     void deleteTeam(Long id);
 
     void addPlayerToTeam(Long teamId, Long playerId);
+
+    List<PlayerResponse> getPlayersForTeam(Long teamId);
 }

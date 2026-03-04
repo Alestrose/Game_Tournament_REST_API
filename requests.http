@@ -34,3 +34,6 @@ Content-Type: application/json
 
 ### Assign Player To Team
 POST http://localhost:8080/teams/1/players/2
+
+### Get Players in Team
+GET http://localhost:8080/teams/1/players

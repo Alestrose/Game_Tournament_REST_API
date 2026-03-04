@@ -1,5 +1,6 @@
 package com.alanmcgillivray.tournament.controller;
 
+import com.alanmcgillivray.tournament.dto.PlayerResponse;
 import com.alanmcgillivray.tournament.dto.TeamRequest;
 import com.alanmcgillivray.tournament.dto.TeamResponse;
 import com.alanmcgillivray.tournament.service.TeamService;
@@ -47,5 +48,10 @@ public class TeamController {
             @PathVariable Long playerId) {
 
         teamService.addPlayerToTeam(teamId, playerId);
+    }
+
+    @GetMapping("/{id}/players")
+    public List<PlayerResponse> getPlayersForTeam(@PathVariable Long id) {
+        return teamService.getPlayersForTeam(id);
     }
 }
