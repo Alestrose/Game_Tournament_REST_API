@@ -120,6 +120,19 @@ Step 7: Validation Layering
         return playerService.createPlayer(player);
       }
 
+Step 8: DTO's
+  Create PlayerRequest.java (Move player properties to PlayerRequest with annotations. But not id)
+  Create PlayerResponse.java (Move all Player properties to PlayerResponse without annotations. Onclude id)
+  Update PlayerCotroller Post and get methods to output PlayerResponse and take PlayerRequest as parameters
+  Update PlayerService
+    -PlayerResponse createPlayer(PlayerRequest request);
+    -PlayerResponse getPlayerById(Long id);
+    -List<PlayerResponse> getAllPlayers();
+    -void deletePlayer(Long id);
+  Update PlayerServiceImpl.java with implementations for create and get methods to return PlayerResponse objects.
+
+
+
 
 
 Reflection
