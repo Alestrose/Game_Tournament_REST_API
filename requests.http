@@ -3,11 +3,23 @@ POST http://localhost:8080/players
 Content-Type: application/json
 
 {
-  "name": "",
-  "level": 0,
-  "health": -5,
-  "strength": -1,
-  "defense": 0,
-  "speed": 0
+  "name": "Ranger",
+  "level": 2,
+  "health": 90,
+  "strength": 18,
+  "defense": 12,
+  "speed": 20
 }
 
+### Update Player
+PUT http://localhost:8080/players/1
+Content-Type: application/json
+
+{
+  "name": "Updated Knight",
+  "level": 2,
+  "health": 120,
+  "strength": 25,
+  "defense": 18,
+  "speed": 12
+}
