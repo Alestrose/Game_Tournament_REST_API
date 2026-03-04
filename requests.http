@@ -3,11 +3,11 @@ POST http://localhost:8080/players
 Content-Type: application/json
 
 {
-  "name": "Archer",
-  "level": 1,
-  "health": 75,
-  "strength": 15,
-  "defense": 8,
-  "speed": 20
+  "name": "",
+  "level": 0,
+  "health": -5,
+  "strength": -1,
+  "defense": 0,
+  "speed": 0
 }
 

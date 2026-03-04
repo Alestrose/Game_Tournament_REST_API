@@ -2,6 +2,7 @@ package com.alanmcgillivray.tournament.controller;
 
 import com.alanmcgillivray.tournament.model.Player;
 import com.alanmcgillivray.tournament.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,8 @@ public class PlayerController {
     }
 
     @PostMapping
-    public Player createPlayer(@RequestBody Player player){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Player createPlayer(@Valid @RequestBody Player player){
         return playerService.createPlayer(player);
     }
 
