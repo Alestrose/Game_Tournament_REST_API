@@ -131,8 +131,35 @@ Step 8: DTO's
     -void deletePlayer(Long id);
   Update PlayerServiceImpl.java with implementations for create and get methods to return PlayerResponse objects.
 
-
-
+Step 9: Mapper Layer
+  Create PlayerMapper.java (@Component bean)
+    -add Player toEntity method which returns new player specifying player.set methods
+    -add PlayerResponse toResponse method returning PlayerResponse containing player.get methods
+  Inject PlayerMapper into PlayerServiceImpl.java with a new PlayerMapper object which is added to constructor
+    -replace create method with simpler:
+      @Override
+      public PlayerResponse createPlayer(PlayerRequest request) {
+          Player player = playerMapper.toEntity(request);
+          Player savedPlayer = playerRepository.save(player);
+          return playerMapper.toResponse(savedPlayer);
+      }
+    -replace getPlayerById with simpler:
+      @Override
+      public PlayerResponse getPlayerById(Long id) {
+          Player player = playerRepository.findById(id)
+                  .orElseThrow(() ->
+                          new ResourceNotFoundException("Player not found with id: " + id));
+          return playerMapper.toResponse(player);
+      }
+    -replace getAllPlayers with simpler:
+      @Override
+      public List<PlayerResponse> getAllPlayers() {
+          return playerRepository.findAll()
+                  .stream()
+                  .map(playerMapper::toResponse)
+                  .toList();
+      }
+  Service layer is much cleaner using Mapper layer
 
 
 Reflection
