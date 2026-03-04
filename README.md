@@ -161,6 +161,14 @@ Step 9: Mapper Layer
       }
   Service layer is much cleaner using Mapper layer
 
+Step 10: Put, updating existing players
+  Update PlayerService.java with new updatePlayer method taking id and PlayerRequest as parameters
+  Update PlayerServiceImpl with implementation for new updatePlayer method.
+  Add endpoint to PlayerController.java
+  Test CRUD aoperations are functioning.
+    -add a POST http://localhost:8080/players operation to requests.http file to add a new character to the db
+    -add a PUT http://localhost:8080/players/1 operation to requests.http file to replace any character with id 1
+    Run both methods in http://localhost:8080/players to confirm correct operations and validations
 
 Reflection
   -Learned how Spring Boot auto-configuration works.
