@@ -38,4 +38,8 @@ public class Player {
 
     @Min(value = 0, message = "Speed must not be negative")
     private int speed;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 }

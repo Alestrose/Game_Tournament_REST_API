@@ -23,3 +23,11 @@ Content-Type: application/json
   "defense": 18,
   "speed": 12
 }
+
+### Create Team
+POST http://localhost:8080/teams
+Content-Type: application/json
+
+{
+  "name": "Red Dragons"
+}
