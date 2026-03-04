@@ -1,9 +1,12 @@
 
 
-The journay into learning Spring Boot and RESTful API's
+The journey into learning Spring Boot and RESTful API's
+
+This project documents my structured journey into learning Spring Boot and building RESTful APIs using layered architecture principles.
+Rather than following a tutorial blindly, I focused on understanding how each component (JPA, Hibernate, Spring Data, etc.) fits into the overall system design.
 
 Learnings
-  JPA (Kakarta Persistence API)
+  JPA (Jakarta Persistence API)
     -Defines what each annotation means (@entity, @Id...)
     -Defines what EntityManager is
     -Defines how persistence should work
@@ -24,14 +27,14 @@ Learnings
   Spring Boot
     -Auto configures everything
     -Wires dependencies together
-    -Starts embeded Tomcat
+    -Starts embedded Tomcat
     -Configures Hibernate
     -Configures DataSource
     -Scans packages
 
 
 Architecture  Controller → Service → Repository → Database
-REST architecture differes from web application MVC. Consider it "Layered Architecture with MVC principles"
+REST architecture differs from web application MVC. Consider it "Layered Architecture with MVC principles"
   Controller
     -HTTP requests
     -Request validation (basic)
@@ -79,7 +82,7 @@ Step1: Project setup
     spring.jpa.show-sql=true
 
 Step 2: The Model Layer
-  Create Player entity class with lombox and jakarta annotations
+  Create Player entity class with lombok and jakarta annotations
   test db table "players" is operational via web h2 console @ http://localhost:8080/h2-console
 
 Step 3: The Repository Layer
@@ -97,3 +100,105 @@ Step 4: The Service Layer (business logic)
   Create PlayerServiceImpl, extends PlayerService
     -Implement methods
 
+Step 5: The Controller Layer
+  Created PlayerController.java (RestController)
+    -Maps Get, Post and Delete to Player methods
+
+Step 6: Error Handling
+  (Incorrect GET requests return 500 status code which indicates something is broken, instead of 404 status code which indicates something is not found)
+  Create ResourceNotFoundException.java
+  Create GlobalExceptionHandler.java (@RestControllerAdvice applies this to all controllers)
+  Update the thrown exception for getPlayerById in PlayerServiceImpl.java with new ResourceNotFoundException
+    Replaced generic RuntimeException with custom ResourceNotFoundException and mapped it globally to return HTTP 404.
+  
+Step 7: Validation Layering
+  Import to Player.java: jakarta.validation.constraints.Min; & jakarta.validation.constraints.NotBlank;
+  Annotate variables in Player with @NotBlank or @Min where required
+  Enable validation in controller
+    -add @Valid annotation to createPlayer Method in PlayerController.java
+      public Player createPlayer(@Valid @RequestBody Player player){
+        return playerService.createPlayer(player);
+      }
+
+Step 8: DTO's
+  Create PlayerRequest.java (Move player properties to PlayerRequest with annotations. But not id)
+  Create PlayerResponse.java (Move all Player properties to PlayerResponse without annotations. Onclude id)
+  Update PlayerCotroller Post and get methods to output PlayerResponse and take PlayerRequest as parameters
+  Update PlayerService
+    -PlayerResponse createPlayer(PlayerRequest request);
+    -PlayerResponse getPlayerById(Long id);
+    -List<PlayerResponse> getAllPlayers();
+    -void deletePlayer(Long id);
+  Update PlayerServiceImpl.java with implementations for create and get methods to return PlayerResponse objects.
+
+Step 9: Mapper Layer
+  Create PlayerMapper.java (@Component bean)
+    -add Player toEntity method which returns new player specifying player.set methods
+    -add PlayerResponse toResponse method returning PlayerResponse containing player.get methods
+  Inject PlayerMapper into PlayerServiceImpl.java with a new PlayerMapper object which is added to constructor
+    -replace create method with simpler:
+      @Override
+      public PlayerResponse createPlayer(PlayerRequest request) {
+          Player player = playerMapper.toEntity(request);
+          Player savedPlayer = playerRepository.save(player);
+          return playerMapper.toResponse(savedPlayer);
+      }
+    -replace getPlayerById with simpler:
+      @Override
+      public PlayerResponse getPlayerById(Long id) {
+          Player player = playerRepository.findById(id)
+                  .orElseThrow(() ->
+                          new ResourceNotFoundException("Player not found with id: " + id));
+          return playerMapper.toResponse(player);
+      }
+    -replace getAllPlayers with simpler:
+      @Override
+      public List<PlayerResponse> getAllPlayers() {
+          return playerRepository.findAll()
+                  .stream()
+                  .map(playerMapper::toResponse)
+                  .toList();
+      }
+  Service layer is much cleaner using Mapper layer
+
+Step 10: Put, updating existing players
+  Update PlayerService.java with new updatePlayer method taking id and PlayerRequest as parameters
+  Update PlayerServiceImpl with implementation for new updatePlayer method.
+  Add endpoint to PlayerController.java
+  Test CRUD aoperations are functioning.
+    -add a POST http://localhost:8080/players operation to requests.http file to add a new character to the db
+    -add a PUT http://localhost:8080/players/1 operation to requests.http file to replace any character with id 1
+    Run both methods in http://localhost:8080/players to confirm correct operations and validations
+
+Step 11: Connect Team and Player (add player to a team
+  Add new method addPlayerToTeam(Long teamId, Long playerId) to TeamService
+  Add implementation for new method to TeamServiceImpl.
+  Add PlayerRepository to TeamServiceImpl constructor
+  Update TeamController with addPlayerToTeam method.
+    -@PostMapping("/{teamId}/players/{playerId}")
+    -@ResponseStatus(HttpStatus.NO_CONTENT)
+  Finally add new POST http://localhost:8080/teams/1/players/2 to requests.http and test.
+    -create 2 players and run the new POST command. Second player should have TEAM_ID: 1
+
+*Important Note*
+At this point the API is fully RESTful complient and all CRUD operations safley with validations using Spring Boot.
+We will continue and add a team table to the database to continue to learn and display relationships/
+
+Step 11: Teams
+  Create new model Team
+  Update Player.java with a Team property (@ManyToOne & @JoinColumn aonnotations)
+  Create TeamRepository.java so Spring Boot can generate all CRUD operations
+  Create TeamRequest, TeamResponse and Tam Mapper just like Player
+  Create TeamService and TeamServiceImpl just like for player
+  Create TeamController just like PlayerController
+  Finally add a Team POST to requests.http, run the application and check http://localhost:8080/teams and http://localhost:8080/teams/1 to show getAll abd getById are working
+
+
+
+Reflection
+  -Learned how Spring Boot auto-configuration works.
+  -Understood the difference between JPA specification and Hibernate implementation.
+  -Implemented layered architecture with separation of concerns.
+  -Implemented custom exception handling and structured validation responses.
+  -Gained hands-on experience building and testing REST endpoints using HTTP tools.
+    
