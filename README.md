@@ -170,6 +170,16 @@ Step 10: Put, updating existing players
     -add a PUT http://localhost:8080/players/1 operation to requests.http file to replace any character with id 1
     Run both methods in http://localhost:8080/players to confirm correct operations and validations
 
+Step 11: Connect Team and Player (add player to a team
+  Add new method addPlayerToTeam(Long teamId, Long playerId) to TeamService
+  Add implementation for new method to TeamServiceImpl.
+  Add PlayerRepository to TeamServiceImpl constructor
+  Update TeamController with addPlayerToTeam method.
+    -@PostMapping("/{teamId}/players/{playerId}")
+    -@ResponseStatus(HttpStatus.NO_CONTENT)
+  Finally add new POST http://localhost:8080/teams/1/players/2 to requests.http and test.
+    -create 2 players and run the new POST command. Second player should have TEAM_ID: 1
+
 *Important Note*
 At this point the API is fully RESTful complient and all CRUD operations safley with validations using Spring Boot.
 We will continue and add a team table to the database to continue to learn and display relationships/
