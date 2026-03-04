@@ -174,6 +174,17 @@ Step 10: Put, updating existing players
 At this point the API is fully RESTful complient and all CRUD operations safley with validations using Spring Boot.
 We will continue and add a team table to the database to continue to learn and display relationships/
 
+Step 11: Teams
+  Create new model Team
+  Update Player.java with a Team property (@ManyToOne & @JoinColumn aonnotations)
+  Create TeamRepository.java so Spring Boot can generate all CRUD operations
+  Create TeamRequest, TeamResponse and Tam Mapper just like Player
+  Create TeamService and TeamServiceImpl just like for player
+  Create TeamController just like PlayerController
+  Finally add a Team POST to requests.http, run the application and check http://localhost:8080/teams and http://localhost:8080/teams/1 to show getAll abd getById are working
+
+
+
 Reflection
   -Learned how Spring Boot auto-configuration works.
   -Understood the difference between JPA specification and Hibernate implementation.
